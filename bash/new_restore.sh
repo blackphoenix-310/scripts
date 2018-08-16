@@ -4,7 +4,7 @@
 data_rest=$(ls /mnt/rest)
 dat_rest="/mnt/data/"
 cd /mnt/rest
-rsync -avz --progress odin@phoenixcave.phoenix.org:/mnt/backup/ $data_rest
+rsync -avz --progress user@host:/mnt/backup/ $data_rest
 for d in $data_rest
 do
  echo "Restoring ${d}..."
