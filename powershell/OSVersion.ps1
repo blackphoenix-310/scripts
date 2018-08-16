@@ -1,0 +1,1 @@
+Get-ADComputer -SearchBase 'OU=,OU=,OU=,OU=,DC=,DC=,DC=,DC=' -filter { name -like '**' } -Properties Name,OperatingSystemVersion,IPv4Address | select Name,OperatingSystemVersion,IPv4Address | Export-Csv -Path
