@@ -22,4 +22,4 @@ elseif ($selection -eq 2) {
  Usr-Disable
 }
 }
-until ($selection -ne 'q') 
+while ($selection -ne 'q') 
