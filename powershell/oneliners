@@ -1,0 +1,26 @@
+######RANDOM PW/Gen########
+
+Add-Type -AssemblyName System.Web
+[System.Web.Security.Membership]::GeneratePassword(<int>, <int>) {int=integer}\
+
+#######Find machines w/o IP addresses#######
+
+Get-ADComputer -SearchBase 'OU=,OU=,OU=,OU=,DC=,DC=,DC=,DC=' -filter { name -like '*RIID*' } -Properties "*" | where { $_.IPv4Address -like "" } | select Name | sort Name
+
+###Run batch file###
+Start-Process "cmd.exe" "/c \\path\to\batch\file"
+
+####find current user (remote)####
+Get-WmiObject -Class win32_computersystem -ComputerName <IP/HOSTNAME> | select username
+
+####Find IPv4 Address####
+Get-NetIPAddress | where {($_.AddressFamily -like "IPv4") -and $_.InterfaceAlias -like "*Ethernet*"} | select InterfaceAlias,InterfaceIndex,IPAddress
+
+####Find RIID Servers####
+Get-ADComputer -LDAPFilter '(name=*)' -SearchBase 'OU=,OU=,OU=,DC=,DC=,DC=,DC=' -Properties "*" | select Name,IPv4Address,Description | Sort Name | Export-Csv C:\Users\$env:username\Desktop\riid-server.csv
+
+####PC Deltas?####
+Get-ADComputer -LDAPFilter '(name=RIID*)' -SearchBase "OU=,OU=,OU=,DC=,DC=,DC=,DC=" -Properties "*" | where { ($_.Created -gt $(get-date).AddDays(-14)) -and $_.IPv4Address -notlike "" } | select Name,IPv4Address,Created | sort Name | Export-Csv "C:\Users\$username\Desktop\new"
+
+###Check for HOTFIXES###
+Get-HotFix -ComputerName <COMPUTERNAME> | where { $_.HotFixID -like "*<KB-ID>*"}
