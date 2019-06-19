@@ -19,7 +19,7 @@ read -p "Path to storage: " STORE
 kubuntu () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/kubuntu-18.04.1-desktop-amd64.iso \
 --os-type linux \
@@ -32,7 +32,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 suse-tumble () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/openSUSE-Tumbleweed-DVD-x86_64-Snapshot20190108-Media.iso \
 --os-type linux \
@@ -45,7 +45,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 ubuntu_bionic () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/mnt/iso/kubuntu-18.04.1-desktop-amd64.iso \
 --os-type linux \
@@ -59,7 +59,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 centos_7 () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=CentOS-7-x86_64-DVD-1810.iso \
 --os-type linux \
@@ -72,7 +72,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 ubuntu_server_bionic () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/ubuntu-18.04.1-live-server-amd64.iso \
 --os-type linux \
@@ -85,7 +85,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 deb9 () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/debian-9.6.0-amd64-DVD-1.iso \
 --os-type linux \
@@ -98,7 +98,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 win_10 () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/<window10_iso> \
 --os-type windows \
@@ -111,7 +111,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 win_2k12 () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/<windows2k12_iso> \
 --os-type windows \
@@ -124,7 +124,7 @@ virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
 serv_2k16 () {
 vol_info
 install_info
-virt-install --name $VM_NAME --vcpu $CPU --ram $MEM \
+virt-install --name $VM_NAME --vcpu $CPU --memory $MEM \
 --disk path=$STORE \
 --cdrom=/opt/<windows2k16_iso> \
 --os-type windows \
