@@ -11,7 +11,7 @@ do
 	tar czf "${dat_dest}${dat}_$(date +%F_%R).tar.gz" $dat
 	echo "${dat} archive complete!!"
 	echo "Syncing ${dat} archive..."
-	rsync -az "${dat_dest}${dat}_$(date +%F_%R).tar.gz" odin@phoenixcave.phoenix.org:/mnt/backup
+	rsync -az "${dat_dest}${dat}_$(date +%F_%R).tar.gz" user@host:/mnt/backup
 done
 
 
