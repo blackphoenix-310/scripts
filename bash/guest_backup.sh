@@ -1,32 +1,28 @@
 #!/bin/bash
 #set -xv
 
-# script logging
-exec 3>&1 4>&2
-trap 'exec 2>&4 1>&3' 0 1 2 3
-exec 1>log.out 2>&1
+# Script to do live KVM guest backup
+# using Active block commit
 
-# variables
-GET_NAME=$(virsh -c qemu:///system list | awk '/running/{print $2}') # list running guests
-BLK_LIST=$(virsh -c qemu:///system domblklist --domain $GET_NAME | awk '/vda/{print $2}') # list blk devices to backup
+# declare/initialize global array
+guests=($(virsh -c qemu:///system list | awk '/running/{print $2}'))
+
+# global variables
 SNAP_DEST=/mnt/snap/
 CPY_DEST=/mnt/backup/
 
-for n in $GET_NAME
+for n in "${guests[@]}"
 do
- echo "Creating external snap of ${n}..."
+ # initialize block storage array list and sets array variable
+ blks=($(virsh -c qemu:///system domblklist --domain ${n} | awk '/vda/{print $2}'))
+ BLK_CALL=$(echo ${blks[0]})
+ # create external snapshot
  virsh -c qemu:///system snapshot-create-as --domain ${n} --name ${n} --diskspec vda,file=${SNAP_DEST}${n}.qcow2 \
- --disk-only --atomic --no-metadata --quiesce
- echo "Copying ${n}'s storage...."
- rsync -azq $BLK_LIST ${CPY_DEST}${n}
- echo "Merging current ${n}'s snapshot..."
- virsh -c qemu:///system blockcommit --domain ${n} vda --active --pivot --verbose
+ --disk-only --atomic --no-metadata --quiesce | logger -t guest_snap
+ # syncs with backup destination
+ rsync -azq ${BLK_CALL} ${CPY_DEST}${n} | logger -t guest_sync
+ # active blockcommit
+ virsh -c qemu:///system blockcommit --domain ${n} vda --active --pivot --verbose | logger -t guest_pivot
  rm -rf ${SNAP_DEST}${n}.qcow2
- echo "Backup of ${n} created and changes merged"
+ 
 done
-
-
-# find active blockdevices <virsh domblklist $LIST_GUEST>
-# create external disk snapshot <virsh -c qemu:///system snapshot-create-as --domain <vm_name> --name <vm_name> --diskspec vda,file=/path/to/external.qcow2 --disk-only --no-metadata --atomic --quiesce>
-# copy/rsync to backup storage <rsync -az /path/of/external/ /path/to/backup>
-# merge contents of external snap with live vm <virsh -c qemu:///system blockcommit --domain <vm_name> vda --active --pivot --verbose>
